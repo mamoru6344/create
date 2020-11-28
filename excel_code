@@ -1,0 +1,65 @@
+var input_bet = 100;
+var add_bet = 100;
+var for_number= 1;
+var input_multi = 10;
+var input_number = 70;
+var win_money = 0;
+var profit = 0;
+var total = 0;
+var input_break_point = 30;//利益率
+var array = [];
+
+
+function result(){
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getActiveSheet();
+  sh.clear();
+  sheet.getRange(1, 1).setValue(['投資回数', '累計投資額', '掛け金', '倍率', '回収金額', '利益','実行時間']);
+  profitScript();
+}
+
+
+function profitScript(){
+  for(let i=for_number; i<= input_number; i++ ){
+    var start = new Date();
+     Logger.log(i + '回目-------------------------' );
+    if(i == 1){
+      win_money = input_bet * input_multi;
+      total = input_bet;
+      profit = win_money - total;
+      //Logger.log('掛け金:' + input_bet);
+      //Logger.log('倍率:' + input_multi);
+      //Logger.log('回収金額:' + win_money);
+      //Logger.log('累計投資額:' + total);
+      //Logger.log('利益:' + profit);
+      var end = new Date();
+      var time_past = (end - start) / 1000;
+      var lastRow = sheet.getLastRow();
+      sheet.getRange(lastRow + 1, 1).setValue([i, total, input_bet, input_multi, win_money, profit,time_past]);
+      //array.push([i, total, input_bet, input_multi, win_money, profit,time_past]);
+    }else{
+      if(win_money - total > win_money * input_break_point / 100){
+        win_money = input_bet * input_multi;
+        total += input_bet;
+        profit = win_money - total;
+        //Logger.log('回収金額:' + win_money);
+        //Logger.log('累計投資額:' + total);
+        //Logger.log('利益:' + profit);
+        //Logger.log(win_money * input_break_point / 100);
+        var end = new Date();
+        var time_past = (end - start) / 1000;
+        var lastRow = sheet.getLastRow();
+        sheet.getRange(lastRow + 1, 1).setValue([i, total, input_bet, input_multi, win_money, profit,time_past]);
+        //array.push([i, total, input_bet, input_multi, win_money, profit,time_past]);
+      }else{
+        Logger.log(i + '回目やり直し' );
+        i -= 1 ;
+        input_bet += add_bet;
+        win_money = input_bet * input_multi;
+        //Logger.log(i + 'input_bet:' + input_bet );
+        //Logger.log('i :' + i );
+      }
+    }
+  }
+  Logger.log(array);
+}
