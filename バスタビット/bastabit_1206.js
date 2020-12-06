@@ -13,9 +13,14 @@ function startBet(){
   writeSpreadSheet(bet, ratio_of_bet, win_payout, bet_total, profit, profit_rate, 1);
   for(let i = 2; i <= number_of_traial; i++){
     Logger.log(i + "回目開始");
+    if(100 * (bet  * ratio_of_bet -(bet_total + bet)) / (bet_total + bet)>= profit_rate){
+      gameStart(bet);
+      writeSpreadSheet(bet, ratio_of_bet, win_payout, bet_total, profit, profit_rate, i);
+    }else{
     bet = Math.ceil((-100 * bet_total) / (profit_rate * ratio_of_bet -100 * ratio_of_bet +100));
     gameStart(bet);
     writeSpreadSheet(bet, ratio_of_bet, win_payout, bet_total, profit, profit_rate, i);
+    }
   }
 }
 
