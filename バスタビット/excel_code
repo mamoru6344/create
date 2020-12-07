@@ -39,27 +39,37 @@ function profitScript(){
       //array.push([i, total, input_bet, input_multi, win_money, profit,time_past]);
     }else{
       if(win_money - total > win_money * input_break_point / 100){
-        win_money = input_bet * input_multi;
-        total += input_bet;
-        profit = win_money - total;
-        //Logger.log('回収金額:' + win_money);
-        //Logger.log('累計投資額:' + total);
-        //Logger.log('利益:' + profit);
-        //Logger.log(win_money * input_break_point / 100);
-        var end = new Date();
-        var time_past = (end - start) / 1000;
-        var lastRow = sheet.getLastRow();
-        sheet.getRange(lastRow + 1, 1).setValue([i, total, input_bet, input_multi, win_money, profit,time_past]);
+       betResult(win_money,input_bet,input_multi, total, profit);
         //array.push([i, total, input_bet, input_multi, win_money, profit,time_past]);
       }else{
         Logger.log(i + '回目やり直し' );
-        i -= 1 ;
+       // i -= 1 ;
         input_bet += add_bet;
         win_money = input_bet * input_multi;
         //Logger.log(i + 'input_bet:' + input_bet );
         //Logger.log('i :' + i );
+        if(win_money - total > win_money * input_break_point / 100){
+          betResult(win_money,input_bet,input_multi, total, profit);
+        }else{
+          input_bet = (input_bet * input_multi - (total + input_bet))/input_multi / input_break_point;
+          betResult(win_money,input_bet,input_multi, total, profit);
+        }
       }
     }
   }
   Logger.log(array);
+}
+
+function betResult(win_money,input_bet,input_multi, total, profit){
+  win_money = input_bet * input_multi;
+  total += input_bet;
+  profit = win_money - total;
+  //Logger.log('回収金額:' + win_money);
+  //Logger.log('累計投資額:' + total);
+  //Logger.log('利益:' + profit);
+  //Logger.log(win_money * input_break_point / 100);
+  var end = new Date();
+  var time_past = (end - start) / 1000;
+  var lastRow = sheet.getLastRow();
+  sheet.getRange(lastRow + 1, 1).setValue([i, total, input_bet, input_multi, win_money, profit,time_past])
 }
