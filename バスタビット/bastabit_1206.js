@@ -1,9 +1,9 @@
-var bet = 100;
+var bet = 1;
 var ratio_of_bet = 10;
 var win_payout = 0;
 var bet_total = 0;
 var profit = 0;
-var profit_rate = 30;
+var profit_rate = 10;
 var number_of_traial = 100
 
 function startBet(){
