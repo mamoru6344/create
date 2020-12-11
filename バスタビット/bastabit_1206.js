@@ -1,4 +1,4 @@
-var bet = 1;
+var bet = 100;
 var ratio_of_bet = 10;
 var win_payout = 0;
 var bet_total = 0;
