@@ -8,19 +8,22 @@ var number_of_traial = 100
 
 function startBet(){
   Logger.log("1回目開始");
-  var saved_bet = bet;
-  var digit = bet;
+  var bet_ini = bet;
   gameStart(bet);
   writeSpreadSheet(bet, ratio_of_bet, win_payout, bet_total, profit, profit_rate, 1);
   for(let i = 2; i <= number_of_traial; i++){
     Logger.log(i + "回目開始");
-    if(100 * (bet  * ratio_of_bet -(bet_total + bet)) / (bet_total + bet)>= profit_rate){
+
+    next_probably_total = bet_total + bet;
+    next_probably_profit = bet * ratio_of_bet - next_probably_total;
+    if (next_probably_profit < 0){
+      multiplier = Math.ceil(Math.abs(next_probably_profit) / bet * ratio_of_bet);
+      bet = bet + bet_ini * multiplier;
       gameStart(bet);
       writeSpreadSheet(bet, ratio_of_bet, win_payout, bet_total, profit, profit_rate, i);
     }else{
-    bet = Math.ceil(Math.ceil((-100 * bet_total) / (profit_rate * ratio_of_bet -100 * ratio_of_bet +100)) * digit) / digit;
-    gameStart(bet);
-    writeSpreadSheet(bet, ratio_of_bet, win_payout, bet_total, profit, profit_rate, i);
+      gameStart(bet);
+      writeSpreadSheet(bet, ratio_of_bet, win_payout, bet_total, profit, profit_rate, i);
     }
   }
 }
