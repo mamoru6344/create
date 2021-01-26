@@ -9,7 +9,7 @@ var roundCnt    = 0
 var currentBet  = 0;
 var sumBet      = 0;
 var _stackBet   = [0, 0]
-
+var waitCnt     = 0;
 
 
 if (engine.gameState === "GAME_STARTING") {
@@ -20,7 +20,24 @@ engine.on('GAME_STARTING', onGameStarted);
 engine.on('GAME_ENDED', onGameEnded);
 
 function onGameStarted() {
-cocomoMethod();
+   var confirmGame = engine.history.first();
+
+   if (roundCnt == 1){
+      waitCnt+=1
+   }
+
+   if (confirmGame.bust <= 3.00 && waitCnt==0) {
+      waitCnt+=1;
+      roundCnt+=1
+      log('ゲーム回数：',roundCnt, ', ','前回BUSTが3以下なので、1回待機します。');
+      engine.cancelQueuedBet();
+   } else if (confirmGame.bust >= 10.00){
+      roundCnt+=1;
+      log('ゲーム回数：',roundCnt, ', ','前回BUSTが10以上で勝利したので、1回待機します。')
+      engine.cancelQueuedBet();
+   } else {
+      cocomoMethod();
+   }
 }
 
 function onGameEnded() {
