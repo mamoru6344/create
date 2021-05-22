@@ -10,7 +10,7 @@ header{
 main{
   display: flex;
   flex-direction: row;
-  height: 80%;
+  height: 76%;
   width: 100%;
 }
 .left-side-main{
@@ -46,13 +46,13 @@ main{
   height: 50%;
   width: 97%;
   border : solid 2px #333 ;
-  margin-top: 5%;
+  margin-top: 4%;
   margin-left: 2%;
 }
 .right-side-main{
   width: 50%;
   border : solid 2px #333 ;
-  padding: 1%;
+  margin-bottom: 1%;
 }
 
 .horizontal-settings{
@@ -68,6 +68,7 @@ main{
 
 .log-main{
   height: 95%;
+  text-align: center;
 }
 .log{
   overflow-y: scroll;

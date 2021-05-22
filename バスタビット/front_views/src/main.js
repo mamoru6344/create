@@ -12,6 +12,8 @@ function createWindow() {
     },
     width: 1080, height: 720,minWidth: 1080,minHeight: 720,maxWidth: 1080,maxHeight: 720,
     fullscreen: false,
+    resizable: false,
+    useContentSize: true,
   });
 
   // メインウィンドウに表示するURLを指定します
